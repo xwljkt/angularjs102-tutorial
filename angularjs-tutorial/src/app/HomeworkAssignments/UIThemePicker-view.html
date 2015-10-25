@@ -1,0 +1,42 @@
+<div ng-style="{background: UIThemePickerCtrl.bodyColor[thempickerCtrl.userObjectSelection]}">
+<h1>Pick a theme</h1>
+    <div ng-repeat="t in thempickerCtrl.choices">
+        <input type="radio"
+               name="color2"
+               ng-value="$index"
+               ng-model="thempickerCtrl.userObjectSelection"> {{t}}
+    </div>
+
+    <div ng-style="{background: thempickerCtrl.div1Color[thempickerCtrl.userObjectSelection],color:thempickerCtrl.fontColor[thempickerCtrl.userObjectSelection]}">
+        <h2>Hello! I'm DIV 1</h2>
+    </div>
+    <div ng-style="{background: thempickerCtrl.div2Color[thempickerCtrl.userObjectSelection],color:thempickerCtrl.fontColor[thempickerCtrl.userObjectSelection]}">
+        <h2>Hello! I'm DIV 2</h2>
+    </div>
+    </div>
+<div class="row">
+    <div class="col-sm-6">
+        <h2>My Files</h2>
+        <input type="checkbox" ng-model="thempickerCtrl.collaps"> Hide All
+        <ul>
+            <div ng-repeat="(key,value) in thempickerCtrl.categories">
+                <li><span ng-class="thempickerCtrl.showFolder()"></span> {{key}}</li>
+                <ul>
+                    <div ng-if="!thempickerCtrl.collaps" ng-repeat="v in value">
+                        <li><span>{{v}}</span></li>
+                    </div>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <h2>Add Files</h2>
+        <input type="text" ng-model="thempickerCtrl.text" placeholder="Item Name">
+        <button ng-click="thempickerCtrl.addContent(thempickerCtrl.idx, thempickerCtrl.text)">Add Item</button>
+        <ul>
+            <div ng-repeat="(key,value) in thempickerCtrl.categories">
+                <input type="radio" ng-value="$index" ng-model="thempickerCtrl.idx">{{key}}</input>
+            </div>
+        </ul>
+    </div>
+</div>
