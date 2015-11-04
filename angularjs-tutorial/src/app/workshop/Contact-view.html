@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="page-title-minor">Contacts</span>
+    </div>
+    <div class="panel-body">
+        <div ng-repeat="c in contactCtrl.contacts track by $index">
+            <span>First Name: {{c.fname}}</span><br>
+            <span>Last Name: {{c.lname}}</span><br>
+            <span>Phone: {{c.phone}}</span><br>
+            <hr>
+        </div>
+    </div>
+</div>

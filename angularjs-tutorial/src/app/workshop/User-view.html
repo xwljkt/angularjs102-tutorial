@@ -5,23 +5,23 @@
     <div class="panel-body">
         <div class="col-sm-12">
             <label class="field-title">First:</label>
-            <span ng-show="UserCtrl.mode=='display'" ng-bind="UserCtrl.user.first"></span>
-            <input ng-show="UserCtrl.mode=='edit'" type="text" ng-model="UserCtrl.user2.first" style="width: 250px" class="form-control">
+            <span ng-show="userCtrl.mode=='display'" ng-bind="userCtrl.user.first"></span>
+            <input ng-show="userCtrl.mode=='edit'" type="text" ng-model="userCtrl.user2.first" style="width: 250px" class="form-control">
         </div>
         <div class="col-sm-12">
             <label class="field-title">Last:</label>
-            <span ng-show="UserCtrl.mode=='display'" ng-bind="UserCtrl.user.last"></span>
-            <input ng-show="UserCtrl.mode=='edit'" type="text" ng-model="UserCtrl.user2.last" style="width: 250px" class="form-control">
+            <span ng-show="userCtrl.mode=='display'" ng-bind="userCtrl.user.last"></span>
+            <input ng-show="userCtrl.mode=='edit'" type="text" ng-model="userCtrl.user2.last" style="width: 250px" class="form-control">
         </div>
         <div class="col-sm-12">
             <label class="field-title">Email:</label>
-            <span  ng-show="UserCtrl.mode=='display'" ng-bind="UserCtrl.user.email"></span>
-            <input ng-show="UserCtrl.mode=='edit'" type="text" ng-model="UserCtrl.user2.email" style="width: 250px"  class="form-control">
+            <span  ng-show="userCtrl.mode=='display'" ng-bind="userCtrl.user.email"></span>
+            <input ng-show="userCtrl.mode=='edit'" type="text" ng-model="userCtrl.user2.email" style="width: 250px"  class="form-control">
         </div>
         <div class="col-sm-12">
-            <button class="btn btn-primary btn-sm" ng-show="UserCtrl.mode=='display'" ng-click="UserCtrl.mode='edit'">Edit</button>
-            <button class="btn btn-primary btn-sm" ng-show="UserCtrl.mode=='edit'" ng-click="UserCtrl.submit()">Done</button>
-            <button class="btn btn-primary btn-sm" ng-show="UserCtrl.mode=='edit'" ng-click="UserCtrl.cancel()">Cancel</button>
+            <button class="btn btn-primary btn-sm" ng-show="userCtrl.mode=='display'" ng-click="userCtrl.mode='edit'">Edit</button>
+            <button class="btn btn-primary btn-sm" ng-show="userCtrl.mode=='edit'" ng-click="userCtrl.submit()">Done</button>
+            <button class="btn btn-primary btn-sm" ng-show="userCtrl.mode=='edit'" ng-click="userCtrl.cancel()">Cancel</button>
         </div>
     </div>
 </div>

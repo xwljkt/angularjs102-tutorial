@@ -29,7 +29,16 @@
         templateUrl: 'app/workshop/PlayList-view.html',
         controller: 'PlayListController',
         controllerAs: 'playlistCtrl'})
-    
+    .state('Contact',{
+        url: '/Contact',
+        templateUrl: 'app/workshop/Contact-view.html',
+        controller: 'ContactController',
+        controllerAs: 'contactCtrl'})
+    .state('AddContact',{
+        url: '/AddContact',
+        templateUrl: 'app/workshop/AddContact-view.html',
+        controller: 'AddContactController',
+        controllerAs: 'addContactCtrl'})
     .state('ThemePicker',{
         url: '/ThemePicker',
         templateUrl: 'app/HomeworkAssignments/UIThemePicker-view.html',

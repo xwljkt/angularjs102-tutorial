@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="page-title-minor">Add Contact</span>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <label class="field-title">First:</label>
+            <input type="text" ng-model="addContactCtrl.first" style="width: 250px" class="form-control">
+        </div>
+        <div class="col-sm-12">
+            <label class="field-title">Last:</label>
+            <input type="text" ng-model="addContactCtrl.last" style="width: 250px" class="form-control">
+        </div>
+        <div class="col-sm-12">
+            <label class="field-title">Phone:</label>
+            <input type="text" ng-model="addContactCtrl.phone" style="width: 250px"  class="form-control">
+        </div>
+        <div class="col-sm-12">
+            <button class="btn btn-primary btn-sm" ng-click="addContactCtrl.addContact(addContactCtrl.first,addContactCtrl.last,addContactCtrl.phone)">Add</button>
+        </div>
+    </div>
+</div>

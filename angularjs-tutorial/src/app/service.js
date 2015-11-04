@@ -5,6 +5,8 @@
     .module('angularjsTutorial')
     .factory('Student', Student)
     .factory('MusicProfile',MusicProfile)
+    .factory('Contact',Contact)
+    .service('ContactService',ContactService)
     .service('Calculator',Calculator);
 
   /** @ngInject */
@@ -60,6 +62,25 @@
         };
 
         return Student;
+    }
+    
+    function Contact() {
+        function Contact(fname,lname,phone){
+            this.fname = fname;
+            this.lname = lname;
+            this.phone = phone;
+        }
+        return Contact;
+    }
+    
+    function ContactService(){
+        var self = this;
+        self.contacts = [];
+        
+        self.addContact= function(contact){
+            self.contacts.push(contact);
+        }
+    
     }
     
     function MusicProfile(){

@@ -7,6 +7,8 @@
     .controller('StudentController', StudentController)
     .controller('UserController',UserController)
     .controller('PlayListController',PlayListController)
+    .controller('ContactController',ContactController)
+    .controller('AddContactController',AddContactController)
     .controller('ThemePickerController',ThemePickerController);
 
   /** @ngInject */
@@ -17,6 +19,52 @@
     vm.classAnimation = '';
     vm.creationDate = 1445483324815;
     vm.showToastr = showToastr;
+      
+    vm.projects = [
+        {title: 'User',
+         url: '#/User',
+         type: 'workshop #1',
+         logo: 'User.png',
+         objective:'The task at hand is to show the user their first and last name on the page along with an edit button.'
+        },
+        {title: 'Student',
+         url: '#/Student',
+         type: 'workshop #2',
+         logo: 'Student.png',
+         objective: 'get more familiar with writing custom angular services (factories, services and values).'
+        },
+        {title: 'Play List',
+         url: '#/PlayList',
+         type: 'workshop #3',
+         logo: 'PlayList.png',
+         objective:'The purpose of this workshop is to give you further practice with using AngularJS factories, services and values.'
+        },
+        {title: 'Contact',
+         url: '#/Contact',
+         type: 'workshop #4',
+         logo: 'Contact.png',
+         objective:'Use UI-Route for single page application with view for each state'
+        },
+        {title: 'Add Contact',
+         url: '#/AddContact',
+         type: 'workshop #4',
+         logo: 'AddContact.png',
+         objective:'Use UI-Route for single page application with view for each state'
+        },
+        {title: 'Theme Picker',
+         url: '#/ThemePicker',
+         type: 'Homework #1',
+         logo: 'ThemePicker.png',
+         objective:'The purpose of this assignment is to get everyone familiar with angular built-in directives. Also, to start you off thinking in an angular frame of mind.'
+        },
+        {title: 'Simon Says',
+         url: '#/SimonSays',
+         type: 'Homework #2',
+         logo: 'SimonSays.png',
+         objective:'Classic game of Simon. The purpose of this assignment is to get us familiar with the built in directives and services that angular offers.'
+        }
+        
+    ];
 
     activate();
 
@@ -76,6 +124,7 @@ function StudentController($scope, Student){
         }
     }
 }
+    
 function UserController(){
     var self = this;
     self.mode='display';
@@ -183,5 +232,25 @@ function ThemePickerController() {
         self.text = '';
     };    
 }    
+    
+function ContactController(ContactService){
+    var self = this;
+    self.contacts = ContactService.contacts ;
+
+}
+
+function AddContactController(Contact, ContactService){
+    var self = this;
+    self.addContact = function(fname,lname,phone){
+        console.log("adding" + fname, lname, phone);
+        self.contact = new Contact(fname,lname,phone);
+        ContactService.addContact(self.contact);
+        console.log(ContactService.contacts);
+        self.first = '';
+        self.last = '';
+        self.phone = '';
+    };
+    
+}
     
 })();
