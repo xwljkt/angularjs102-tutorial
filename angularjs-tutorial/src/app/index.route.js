@@ -43,7 +43,18 @@
         url: '/ThemePicker',
         templateUrl: 'app/HomeworkAssignments/UIThemePicker-view.html',
         controller: 'ThemePickerController',
-        controllerAs: 'thempickerCtrl'});
+        controllerAs: 'thempickerCtrl'})
+    .state('SimonSays',{
+        url: '/SimonSays',
+        templateUrl: 'app/HomeworkAssignments/Simon-view.html',
+        controller: 'SimonSaysController',
+        controllerAs: 'simonSaysCtrl'})
+    .state('WeatherForecast',{
+        url: '/WeatherForecast',
+        templateUrl: 'app/Project/forecast-view.htm',
+        controller: 'WeatherController',
+        controllerAs: 'weatherCtrl'})
+    ;
 
     $urlRouterProvider.otherwise('/');
   }

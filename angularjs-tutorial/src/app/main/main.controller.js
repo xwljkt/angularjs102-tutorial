@@ -9,7 +9,9 @@
     .controller('PlayListController',PlayListController)
     .controller('ContactController',ContactController)
     .controller('AddContactController',AddContactController)
-    .controller('ThemePickerController',ThemePickerController);
+    .controller('ThemePickerController',ThemePickerController)
+    .controller('SimonSaysController',SimonSaysController)
+    .controller('WeatherController',WeatherController);
 
   /** @ngInject */
   function MainController($timeout, webDevTec, toastr) {
@@ -62,6 +64,12 @@
          type: 'Homework #2',
          logo: 'SimonSays.png',
          objective:'Classic game of Simon. The purpose of this assignment is to get us familiar with the built in directives and services that angular offers.'
+        },
+        {title: 'Weather Forecast',
+         url: '#/WeatherForecast',
+         type: 'Final Project',
+         logo: 'weather.png',
+         objective:"Your final project is to create a simple (or not so simple!) web application that uses most of the concepts we've learned so far in class. "
         }
         
     ];
@@ -226,9 +234,9 @@ function ThemePickerController() {
         if(idx==0)
             self.categories.Personal.push(content);
         if(idx==1)
-            self.categories.Trip.push(content);
-        if(idx==2)
             self.categories.Work.push(content);
+        if(idx==2)
+            self.categories.Trip.push(content);
         self.text = '';
     };    
 }    
@@ -251,6 +259,245 @@ function AddContactController(Contact, ContactService){
         self.phone = '';
     };
     
+}
+    
+function WeatherController($scope, WeatherResource, WeatherProfile){
+    var self = this;
+    self.days = 5;
+    self.weatherProfiles = [];
+    
+    self.getWeatherResource = function(city){
+        WeatherResource.get({city: city, cnt:self.days})
+        .$promise.then(function onSuccess(response){    self.result = response;
+                                                    console.log(self.result);
+        });
+        self.city = '';
+    }
+
+    self.addProfile = function(city){
+        console.log("adding city");
+        var profile = new WeatherProfile(city);
+        for(var i=0; i<self.weatherProfiles.length;i++){
+            if(self.weatherProfiles[i].city.name === city.name) return;
+        }
+        self.weatherProfiles.push(profile);
+        console.log(self.weatherProfiles);
+    }
+    
+    self.convertToFahrenheit = function(degK) {
+        return Math.round((1.8 * (degK - 273)) + 32);
+    }
+    
+    self.convertToDate = function(dt) { 
+        return new Date(dt * 1000);
+    };
+    
+}
+    
+function SimonSaysController($scope,$timeout) {
+    var self = this;
+    self.colors = {
+        blue: 'blue',
+        red: 'red',
+        orange: 'orange',
+        green: 'green',
+        blink: 'black'
+    };
+    self.red = self.colors.red;
+    self.blue = self.colors.blue;
+    self.green = self.colors.green;
+    self.orange = self.colors.orange;
+
+    self.myColors = [];
+    self.simonColors = [];
+    self.mode = 'Over';
+    self.score = 0;
+    self.highScore = 0;
+    self.around = 0;
+    self.color = null;
+
+    $scope.$watch ("simonCtrl.around", function(newval,oldval){
+        //console.log("new " + newval + " old " + oldval);
+        if(newval != oldval) {
+            check();
+        }
+    }, true);
+
+    function check(){
+        //console.log("checking my colors");
+        //console.log(self.myColors);
+        for(var i=0;i<self.myColors.length;i++){
+            //console.log("Your color: " + self.myColors[i] + " and Simon's color: " + self.simonColors[i]);
+            if(self.simonColors[i] == self.myColors[i]){
+                console.log("correct");
+            }
+            else {
+                console.log("incorrect");
+                gameOver();
+            }
+        }
+        if(self.message != 'Game Over'){
+            if(self.myColors.length == self.simonColors.length) {
+                scored();
+                self.simonTurn();
+            }
+        }
+    }
+    self.start = function() {
+        self.score = 0;
+        self.myColors = [];
+        self.simonColors = [];
+        self.message = '';
+        self.mode = 'Simon';
+        nextMove();
+    };
+
+    self.simonTurn = function(){
+        self.mode = 'Simon';
+        console.log("Simon's turn");
+        //console.log(self.simonColors);
+        self.message = 'Watch Me';
+        //$timeout(oldMove,1000);
+        oldMove();
+        $timeout(nextMove,1000+ self.simonColors.length * 1000);
+    };
+
+    function oldMove(){
+        var i = 0;
+        function myLoop(){
+            self.color = self.simonColors[i];
+            $timeout(function(){
+                console.log('simon clicked ' + self.color);
+                $scope.$apply(function(){
+                    self.class = '';
+                    if(self.color == 'red'){
+                        self.class = 'red';
+                    }if(self.color == 'blue'){
+                        self.class = 'blue';
+                    }if(self.color == 'orange'){
+                        self.class = 'orange';
+                    }if(self.color == 'green'){
+                        self.class = 'green';
+                    }
+                });
+                i++;
+                if(i<self.simonColors.length){
+                    myLoop();
+                }
+            },1000);
+        }
+        myLoop();
+    }
+
+    function nextMove(){
+
+        var randomNumber = Math.floor((Math.random() * 4) + 1);
+        if (randomNumber == 1) {
+            simonClick('blue');
+            self.simonColors.push('blue');
+        } else if (randomNumber == 2) {
+            simonClick('orange');
+            self.simonColors.push('orange');
+        }
+        else if (randomNumber == 3) {
+            simonClick('red');
+            self.simonColors.push('red');
+        }
+        else if (randomNumber == 4) {
+            simonClick('green');
+            self.simonColors.push('green');
+        }
+        resetClass();
+        self.yourTurn();
+    }
+
+    function simonClick (color){
+        setTimeout(function(){
+            console.log('simon clicked ' + color);
+            $scope.$apply(function(){
+                self.class = '';
+                if(color == 'red'){
+                    self.class = 'red';
+                }if(color == 'blue'){
+                    self.class = 'blue';
+                }if(color == 'orange'){
+                    self.class = 'orange';
+                }if(color == 'green'){
+                    self.class = 'green';
+                }
+            })
+        }, 1000);
+
+    }
+
+    self.yourTurn = function(){
+        console.log(self.simonColors);
+        $timeout(function(){
+            self.mode = 'Your';
+            self.message = 'Your Turn';
+            console.log("Your turn" + self.around );
+        },1000 + self.simonColors.length * 1000);
+    };
+
+    self.youClicked = function (color){
+        self.class = '';
+        if(color=='red'){
+            console.log("You clicked red");
+            self.class = 'red';
+            self.myColors.push(self.red);
+            self.around ++;
+        }
+        if(color=='orange'){
+            console.log("You clicked orange");
+            self.class = 'orange';
+            self.myColors.push(self.orange);
+            self.around ++;
+        }
+        if(color=='blue'){
+            console.log("You clicked blue");
+            self.class = 'blue';
+            self.myColors.push(self.blue);
+            self.around ++;
+
+        }
+        if(color=='green'){
+            console.log("You clicked green");
+            self.class = 'green';
+            self.myColors.push(self.green);
+            self.around ++;
+        }
+        $timeout(resetClass,1000);
+
+    };
+
+    function resetClass(){
+        setTimeout(function(){
+            console.log('reset class');
+            $scope.$apply(function(){
+                self.class = '';
+            })
+        }, 1500);
+    }
+
+    function scored(){
+        if(self.around >= self.simonColors.length){
+            self.score ++;
+            self.myColors = [];
+            console.log("scored, reset my colors");
+            self.message = "great!";
+        }
+    }
+
+    function gameOver(){
+        self.myColors = [];
+        self.simonColors = [];
+        self.mode = 'Over';
+        self.score = 0;
+        self.around = 0;
+        self.message = 'Game Over';
+        resetClass();
+    }
+
 }
     
 })();

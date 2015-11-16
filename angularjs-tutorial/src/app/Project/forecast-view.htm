@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="jumbotron text-center" style="background-image: url('assets/images/weather2.jpg');height:120vh">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                    <span class="page-title-minor">Cities</span>
+            </div>
+            <div class="panel-body" style="background-color:none" >
+                <div style="display:inline-block;padding:10px" ng-repeat="p in weatherCtrl.weatherProfiles">
+                    <button class="btn btn-sm btn-default"  ng-click="weatherCtrl.getWeatherResource(p.city.name)">{{p.city.name}}
+                    </button>
+                </div>            
+            </div>
+        </div>
+        <div class="row" style="float:middle">
+            <div class="col-md-12">
+                <input style="float:left" type="text" ng-model="weatherCtrl.city" class="form-control field" placeholder="Town, City or Postcode">
+            </div>
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" ng-click="weatherCtrl.getWeatherResource(weatherCtrl.city)">Get Forecast</button>            
+            </div>
+        </div>
+
+        <hr/>
+        <div ng-if="weatherCtrl.result">
+            <div>
+                <div>
+                <h3>{{ weatherCtrl.result.city.name }} - {{ weatherCtrl.result.city.country }}</h3>            
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-primary" ng-click="weatherCtrl.addProfile(weatherCtrl.result.city)">Add City
+                    </button>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <div class="col-sm-6 col-md-2">
+                  <div class="thumbnail">
+                    <img class="pull-right" ng-src="assets/images/{{ weatherCtrl.result.list[0].weather[0].description }}.PNG" alt="{{ weatherCtrl.result.list[0].weather[0].description }}">
+                    <div class="caption">
+                      <h4>{{ weatherCtrl.convertToDate(weatherCtrl.result.list[0].dt) | date:'MMM d, y' }}</h4>
+                    </div>
+                      <h2  style="float:center">{{ weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.day)}}</h2>
+                      <span  style="float:middle">Morning: </span><span ng-bind="weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.morn)"></span>
+                      <span style="float:middle">Night: </span><span ng-bind="weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.night)"></span>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+        <div ng-if="weatherCtrl.result" class="panel panel-default">
+            <div class="panel-heading">
+                <span class="page-title-minor">5 Days Forecast</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="background-image: inherit;" ng-if="weatherCtrl.result">
+                    <thead>
+                    <tr>
+                        <td>Time</td>
+                        <td>Temp Day</td>
+                        <td>Temp High</td>
+                        <td>Temp Low</td>
+                        <td>Cond</td>
+                        <td>Humidity</td>
+                        <td>Pressure</td>
+                        <td>Wind</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="w in weatherCtrl.result.list">
+                        <td ng-bind="weatherCtrl.convertToDate(w.dt) | date: 'MMM d, y'"></td>
+                        <td ng-bind="weatherCtrl.convertToFahrenheit(w.temp.day)"></td>
+                        <td ng-bind="weatherCtrl.convertToFahrenheit(w.temp.max)"></td>
+                        <td ng-bind="weatherCtrl.convertToFahrenheit(w.temp.min)"></td>
+                        <td ng-bind="w.weather[0].description"></td>
+                        <td ng-bind="w.humidity"></td>
+                        <td ng-bind="w.pressure"></td>
+                        <td ng-bind="w.speed"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>  
+</div>
