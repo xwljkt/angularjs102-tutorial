@@ -261,19 +261,58 @@ function AddContactController(Contact, ContactService){
     
 }
     
-function WeatherController($scope, WeatherResource, WeatherProfile){
+function WeatherController($scope, WeatherResource, WeatherProfile, CityResource){
     var self = this;
     self.days = 5;
     self.weatherProfiles = [];
     
+  self.onClick = function (points, evt) {
+    console.log(points, evt);
+  };
+
+     CityResource.query().$promise.then(function onSuccess(cityArray) {
+       //getting the response
+       console.log(cityArray[0][0]);
+       self.cityArray = cityArray;
+     }, function onError(errorResponse) {
+       console.log('ERROR!!!')
+     });
+    
     self.getWeatherResource = function(city){
         WeatherResource.get({city: city, cnt:self.days})
-        .$promise.then(function onSuccess(response){    self.result = response;
-                                                    console.log(self.result);
+        .$promise.then(function onSuccess(response){    
+            self.result = response;
+            self.showGraph();
+            console.log(self.result);
         });
         self.city = '';
     }
-
+    
+    self.showGraph = function(){
+        self.lables = [];
+        self.series = [];
+        self.data = [];
+        var day = [];
+        var min = [];
+        var max = [];
+        for(var i=0;i<self.result.list.length;i++){
+            day.push(self.convertToFahrenheit(self.result.list[i].temp.day));
+            min.push(self.convertToFahrenheit(self.result.list[i].temp.min));
+            max.push(self.convertToFahrenheit(self.result.list[i].temp.max));
+        }
+        self.labels = ["Wed", "Thur", "Fri", "Sat", "Sun"];
+        self.series = ["Day", "High", "Low"];
+        self.data.push(day);
+        self.data.push(max);
+        self.data.push(min);
+        console.log(self.lables);
+        console.log(self.data);
+    }
+    
+    self.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
+    
     self.addProfile = function(city){
         console.log("adding city");
         var profile = new WeatherProfile(city);

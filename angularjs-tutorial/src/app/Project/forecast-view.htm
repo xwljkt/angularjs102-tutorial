@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="jumbotron text-center" style="background-image: url('assets/images/weather2.jpg');height:120vh">
+<!--    <div class="jumbotron" style="background-image: url('assets/images/weather2.jpg');width:120vh;height:120vh">-->
+    <div class="jumbotron" style="width:120vh;height:140vh">
         <div class="panel panel-default">
             <div class="panel-heading">
                     <span class="page-title-minor">Cities</span>
@@ -11,8 +12,9 @@
                 </div>            
             </div>
         </div>
+        
         <div class="row" style="float:middle">
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-bottom:10px">
                 <input style="float:left" type="text" ng-model="weatherCtrl.city" class="form-control field" placeholder="Town, City or Postcode">
             </div>
             <div class="col-md-12">
@@ -32,22 +34,29 @@
                 </div>
             </div>
             <hr />
-
+            
             <div class="row">
-                <div class="col-sm-6 col-md-2">
+                <div class="col-md-4">
                   <div class="thumbnail">
                     <img class="pull-right" ng-src="assets/images/{{ weatherCtrl.result.list[0].weather[0].description }}.PNG" alt="{{ weatherCtrl.result.list[0].weather[0].description }}">
                     <div class="caption">
                       <h4>{{ weatherCtrl.convertToDate(weatherCtrl.result.list[0].dt) | date:'MMM d, y' }}</h4>
                     </div>
-                      <h2  style="float:center">{{ weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.day)}}</h2>
+                      <h2>{{ weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.day)}}</h2>
                       <span  style="float:middle">Morning: </span><span ng-bind="weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.morn)"></span>
                       <span style="float:middle">Night: </span><span ng-bind="weatherCtrl.convertToFahrenheit(weatherCtrl.result.list[0].temp.night)"></span>
                   </div>
                 </div>
+                <div class="col-md-8">
+                    <canvas id="line" class="chart chart-line" chart-data="weatherCtrl.data"
+                      chart-labels="weatherCtrl.labels" chart-legend="true" chart-series="weatherCtrl.series"
+                      chart-click="weatherCtrl.onClick" >
+                    </canvas> 
+                </div>
               </div>
 
         </div>
+        
         <div ng-if="weatherCtrl.result" class="panel panel-default">
             <div class="panel-heading">
                 <span class="page-title-minor">5 Days Forecast</span>
@@ -81,5 +90,5 @@
                 </table>
             </div>
         </div>
-    </div>  
+    </div>      
 </div>

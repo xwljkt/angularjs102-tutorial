@@ -8,6 +8,7 @@ angular
 .factory('WeatherProfile',WeatherProfile)
 .factory('WeatherResource',WeatherResource)
 .factory('Contact',Contact)
+.factory('CityResource',CityResource)
 .service('ContactService',ContactService)
 .service('Calculator',Calculator);
 
@@ -117,6 +118,10 @@ function WeatherProfile(){
         this.city = city;
     }
     return WeatherProfile;
+}
+    
+function CityResource($resource){
+    return $resource('assets/city.list.us.json', null);
 }
 
 })();

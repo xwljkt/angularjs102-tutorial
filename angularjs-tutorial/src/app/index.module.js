@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('angularjsTutorial', ['ngAnimate', 'ngResource', 'ui.router', 'ui.bootstrap', 'toastr']);
+    .module('angularjsTutorial', ['chart.js','mgcrea.ngStrap','ngAnimate', 'ngResource', 'ui.router', 'ui.bootstrap', 'toastr']);
 
 })();
