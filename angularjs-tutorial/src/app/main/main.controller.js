@@ -265,6 +265,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
     var self = this;
     self.days = 5;
     self.weatherProfiles = [];
+    self.model = 'F';
     
   self.onClick = function (points, evt) {
     console.log(points, evt);
@@ -278,7 +279,14 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
        console.log('ERROR!!!')
      });
     
-    self.getWeatherResource = function(city){
+    self.getWeatherResource = function(city, model){
+        console.log(model);
+        console.log(self.model);
+        if(self.model != model){
+            self.model = model;
+            self.showGraph();
+        }
+        if(!city) return;
         WeatherResource.get({city: city, cnt:self.days})
         .$promise.then(function onSuccess(response){    
             self.result = response;
@@ -289,23 +297,24 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
     }
     
     self.showGraph = function(){
-        self.lables = [];
+        console.log("show chart");
+        self.labels = [];
         self.series = [];
         self.data = [];
         var day = [];
         var min = [];
         var max = [];
         for(var i=0;i<self.result.list.length;i++){
-            day.push(self.convertToFahrenheit(self.result.list[i].temp.day));
-            min.push(self.convertToFahrenheit(self.result.list[i].temp.min));
-            max.push(self.convertToFahrenheit(self.result.list[i].temp.max));
+            self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+            day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
+            min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
+            max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
         }
-        self.labels = ["Wed", "Thur", "Fri", "Sat", "Sun"];
         self.series = ["Day", "High", "Low"];
         self.data.push(day);
         self.data.push(max);
         self.data.push(min);
-        console.log(self.lables);
+        console.log(self.labels);
         console.log(self.data);
     }
     
@@ -323,8 +332,10 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         console.log(self.weatherProfiles);
     }
     
-    self.convertToFahrenheit = function(degK) {
-        return Math.round((1.8 * (degK - 273)) + 32);
+    self.convertTemp = function(degK, model) {
+        if(model == 'C')
+            return Math.round(degK - 273);
+        else return Math.round((1.8 * (degK - 273)) + 32);
     }
     
     self.convertToDate = function(dt) { 
