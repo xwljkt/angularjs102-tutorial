@@ -266,6 +266,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
     self.days = 5;
     self.weatherProfiles = [];
     self.model = 'F';
+    self.chartType = 'chart chart-line';
     
   self.onClick = function (points, evt) {
     console.log(points, evt);
@@ -316,6 +317,53 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         self.data.push(min);
         console.log(self.labels);
         console.log(self.data);
+    }
+    
+    self.changeGraph = function(type){
+        self.labels = [];
+        self.series = [];
+        self.data = [];
+        
+        if(type == 'Temp'){
+            var day = [];
+            var min = [];
+            var max = [];
+            for(var i=0;i<self.result.list.length;i++){
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
+                min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
+                max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
+            }
+            self.series = ["Day", "High", "Low"];
+            self.data.push(day);
+            self.data.push(max);
+            self.data.push(min);
+        }
+        else if(type == 'Pressure'){
+            var pres = [];
+            for(var i=0;i<self.result.list.length;i++){
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                pres.push(self.result.list[i].pressure);                
+            }
+            self.series = ["Pressure"];
+            self.data.push(pres);
+        }else if(type == 'Humidity'){
+            var pres = [];
+            for(var i=0;i<self.result.list.length;i++){
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                pres.push(self.result.list[i].humidity);                
+            }
+            self.series = ["Humidity"];
+            self.data.push(pres);
+        }else if(type == 'Wind'){
+            var pres = [];
+            for(var i=0;i<self.result.list.length;i++){
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                pres.push(self.result.list[i].speed);                
+            }
+            self.series = ["Wind"];
+            self.data.push(pres);
+        }
     }
     
     self.onClick = function (points, evt) {
