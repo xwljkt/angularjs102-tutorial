@@ -22,6 +22,15 @@
     vm.creationDate = 1445483324815;
     vm.showToastr = showToastr;
       
+    if (!Date.prototype.toLocaleFormat) {
+        (function() {
+            Date.prototype.toLocaleFormat = function(formatString) {
+            return this.format(formatString);
+            };
+        }());
+    }
+      
+      
     vm.projects = [
         {title: 'User',
          url: '#/User',
@@ -306,7 +315,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         var min = [];
         var max = [];
         for(var i=0;i<self.result.list.length;i++){
-            self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+            self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
             day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
             min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
             max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
@@ -329,7 +338,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
             var min = [];
             var max = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
                 day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
                 min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
                 max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
@@ -342,7 +351,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         else if(type == 'Pressure'){
             var pres = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
                 pres.push(self.result.list[i].pressure);                
             }
             self.series = ["Pressure"];
@@ -350,7 +359,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         }else if(type == 'Humidity'){
             var pres = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
                 pres.push(self.result.list[i].humidity);                
             }
             self.series = ["Humidity"];
@@ -358,7 +367,7 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         }else if(type == 'Wind'){
             var pres = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleFormat('%d-%b-%Y'));
+                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
                 pres.push(self.result.list[i].speed);                
             }
             self.series = ["Wind"];
