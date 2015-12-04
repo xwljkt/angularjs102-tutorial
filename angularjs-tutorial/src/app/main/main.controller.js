@@ -22,15 +22,6 @@
     vm.creationDate = 1445483324815;
     vm.showToastr = showToastr;
       
-    if (!Date.prototype.toLocaleFormat) {
-        (function() {
-            Date.prototype.toLocaleFormat = function(formatString) {
-            return this.format(formatString);
-            };
-        }());
-    }
-      
-      
     vm.projects = [
         {title: 'User',
          url: '#/User',
@@ -315,11 +306,17 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         var min = [];
         var max = [];
         for(var i=0;i<self.result.list.length;i++){
-            self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
+			var date = new Date(self.result.list[i].dt*1000);
+			var day2 = date.getDate();
+			var monthIndex = date.getMonth()+1;
+			var year = date.getFullYear();
+			var d = monthIndex + '/' + day2 + '/' + year;
+			self.labels.push(d);
             day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
             min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
             max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
         }
+		//self.labels = ["12/4/15","12/5/15","12/6/15","12/7/15","12/8/15",];
         self.series = ["Day", "High", "Low"];
         self.data.push(day);
         self.data.push(max);
@@ -338,7 +335,12 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
             var min = [];
             var max = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
+				var date = new Date(self.result.list[i].dt*1000);
+				var day2 = date.getDate();
+				var monthIndex = date.getMonth()+1;
+				var year = date.getFullYear();
+				var d = monthIndex + '/' + day2 + '/' + year;
+				self.labels.push(d);
                 day.push(self.convertTemp(self.result.list[i].temp.day,self.model));
                 min.push(self.convertTemp(self.result.list[i].temp.min,self.model));
                 max.push(self.convertTemp(self.result.list[i].temp.max,self.model));
@@ -349,17 +351,27 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
             self.data.push(min);
         }
         else if(type == 'Pressure'){
-            var pres = [];
-            for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
+				var pres = [];
+				for(var i=0;i<self.result.list.length;i++){
+				var date = new Date(self.result.list[i].dt*1000);
+				var day2 = date.getDate();
+				var monthIndex = date.getMonth()+1;
+				var year = date.getFullYear();
+				var d = monthIndex + '/' + day2 + '/' + year;
+				self.labels.push(d);
                 pres.push(self.result.list[i].pressure);                
             }
             self.series = ["Pressure"];
             self.data.push(pres);
         }else if(type == 'Humidity'){
             var pres = [];
-            for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
+			for(var i=0;i<self.result.list.length;i++){
+				var date = new Date(self.result.list[i].dt*1000);
+				var day2 = date.getDate();
+				var monthIndex = date.getMonth()+1;
+				var year = date.getFullYear();
+				var d = monthIndex + '/' + day2 + '/' + year;
+				self.labels.push(d);
                 pres.push(self.result.list[i].humidity);                
             }
             self.series = ["Humidity"];
@@ -367,8 +379,13 @@ function WeatherController($scope, WeatherResource, WeatherProfile, CityResource
         }else if(type == 'Wind'){
             var pres = [];
             for(var i=0;i<self.result.list.length;i++){
-                self.labels.push((new Date(self.result.list[i].dt*1000)).toLocaleString());
-                pres.push(self.result.list[i].speed);                
+				var date = new Date(self.result.list[i].dt*1000);
+				var day2 = date.getDate();
+				var monthIndex = date.getMonth()+1;
+				var year = date.getFullYear();
+				var d = monthIndex + '/' + day2 + '/' + year;
+				self.labels.push(d);
+				pres.push(self.result.list[i].speed);                
             }
             self.series = ["Wind"];
             self.data.push(pres);
